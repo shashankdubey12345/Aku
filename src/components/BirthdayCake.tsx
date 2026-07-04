@@ -28,6 +28,11 @@ export default function BirthdayCake() {
     // 3. Extinguish candle flame
     setPhase('blown');
 
+    // Save wish to localstorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('aku_wish', wish);
+    }
+
     // 4. Trigger massive heart & stars confetti
     const duration = 2.5 * 1000;
     const end = Date.now() + duration;

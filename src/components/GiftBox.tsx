@@ -66,7 +66,11 @@ export default function GiftBox() {
     if (redeemed.includes(id)) return;
     playSuccessSound();
     triggerHaptic(120);
-    setRedeemed([...redeemed, id]);
+    const newRedeemed = [...redeemed, id];
+    setRedeemed(newRedeemed);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('aku_coupons', JSON.stringify(newRedeemed));
+    }
 
     confetti({
       particleCount: 20,
@@ -81,6 +85,9 @@ export default function GiftBox() {
     playChimeSound();
     triggerHaptic(150);
     setSelectedGift(id);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('aku_gift', id);
+    }
 
     confetti({
       particleCount: 40,
