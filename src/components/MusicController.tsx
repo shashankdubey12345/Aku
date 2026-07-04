@@ -61,7 +61,7 @@ export default function MusicController() {
 
         {/* Title label */}
         <span className="text-[10px] font-bold text-zinc-655 dark:text-pink-100 hidden sm:inline tracking-wider uppercase">
-          {isPlaying && !isMuted ? 'Aku Theme Piano' : 'Music Paused'}
+          {isPlaying && !isMuted ? 'Happy Birthday' : 'Music Paused'}
         </span>
 
         <div className="flex items-center gap-1.5 border-l border-pink-200/50 dark:border-white/10 pl-2">

@@ -20,8 +20,8 @@ export const playBackgroundMusic = (volume: number = 0.5) => {
 
   if (!ambientMusic) {
     ambientMusic = new Howl({
-      // Gorgeous Mixkit romantic piano track
-      src: ['https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-200.mp3'],
+      // Gorgeous happy birthday piano track
+      src: ['https://archive.org/download/HappyBirthdayInstrumentalPianoViaInstrumentals.com.ng/Happy%20Birthday%20Instrumental%20Piano%20via%20instrumentals.com.ng.mp3'],
       html5: true, // Enable HTML5 Audio for streaming large files
       loop: true,
       volume: volume,
