@@ -1,65 +1,297 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Moon, Sun, Share2, Download, ShieldAlert, Sparkles, HeartHandshake } from 'lucide-react';
+
+// Import components
+import FloatingParticles from '@/components/FloatingParticles';
+import CursorSparkles from '@/components/CursorSparkles';
+import LoveLetter from '@/components/LoveLetter';
+import ReasonsCards from '@/components/ReasonsCards';
+import BirthdayWishes from '@/components/BirthdayWishes';
+import BirthdayCake from '@/components/BirthdayCake';
+import GiftBox from '@/components/GiftBox';
+import LoveQuiz from '@/components/LoveQuiz';
+import MusicController from '@/components/MusicController';
+import SurpriseMessage from '@/components/SurpriseMessage';
+
+import { playBackgroundMusic, triggerHaptic, playChimeSound, playPopSound } from '@/utils/sounds';
 
 export default function Home() {
+  const [hasUnlocked, setHasUnlocked] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [nameParam, setNameParam] = useState('Aku');
+
+  // Load URL parameter to personalize the name
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const query = new URLSearchParams(window.location.search);
+      const name = query.get('name') || query.get('to');
+      if (name) {
+        setNameParam(name);
+      }
+    }
+  }, []);
+
+  // Sync Dark mode DOM elements
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
+  const handleUnlockSurprise = () => {
+    // Start ambient piano audio
+    playBackgroundMusic(0.4);
+    if (typeof window !== 'undefined') (window as any)._musicPlaying = true;
+    
+    // Haptic thrum
+    triggerHaptic(200);
+
+    setHasUnlocked(true);
+  };
+
+  const handleDarkModeToggle = () => {
+    playPopSound();
+    triggerHaptic(60);
+    setIsDark((prev) => !prev);
+  };
+
+  const handleShare = async () => {
+    playChimeSound();
+    triggerHaptic(80);
+
+    const shareData = {
+      title: `Happy Birthday ${nameParam}!`,
+      text: `Shashank created a premium interactive birthday surprise for you! 💖`,
+      url: typeof window !== 'undefined' ? window.location.href : '',
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('Share canceled/failed:', err);
+      }
+    } else {
+      // Fallback copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  const handlePrintPDF = () => {
+    playChimeSound();
+    triggerHaptic(100);
+    window.print();
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="relative min-h-screen w-full transition-colors duration-500 selection:bg-rose-200">
+      
+      {/* Background Interactive Overlays */}
+      <FloatingParticles />
+      <CursorSparkles />
+
+      <AnimatePresence mode="wait">
+        
+        {/* State 1: Opening Screen (Locked) */}
+        {!hasUnlocked ? (
+          <motion.div
+            key="opening-screen"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            className="fixed inset-0 z-100 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-rose-50 via-pink-100 to-purple-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-neutral-900"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            {/* Spinning heart background glow */}
+            <div className="absolute w-[280px] h-[280px] rounded-full bg-rose-250/20 dark:bg-rose-900/10 blur-3xl -z-10 animate-pulse" />
+
+            <div className="flex flex-col items-center text-center max-w-sm gap-6 p-6">
+              
+              {/* Pulsing main icon */}
+              <motion.div
+                animate={{ scale: [1, 1.06, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-20 h-20 bg-white dark:bg-zinc-800 rounded-full flex items-center justify-center shadow-lg border border-pink-200/50"
+              >
+                <Heart className="w-10 h-10 text-rose-500 fill-rose-500/20" />
+              </motion.div>
+
+              <div className="flex flex-col gap-2">
+                <h1 className="text-2xl md:text-3xl font-black text-zinc-800 dark:text-pink-100 tracking-wide leading-snug">
+                  ❤️ Happy Birthday <br/>My Princess ❤️
+                </h1>
+                <p className="text-zinc-550 dark:text-zinc-400 text-xs md:text-sm font-sans tracking-tight italic mt-1">
+                  "For {nameParam}, with all my love."
+                </p>
+              </div>
+
+              {/* Loading Bar Simulator */}
+              <div className="w-[180px] h-2 bg-pink-100 dark:bg-zinc-850 rounded-full overflow-hidden shadow-inner mt-4">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 3.5, ease: 'easeInOut' }}
+                  className="h-full bg-gradient-to-r from-rose-455 to-pink-500"
+                />
+              </div>
+
+              <motion.button
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.5 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleUnlockSurprise}
+                className="mt-6 py-3.5 px-8 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-650 font-extrabold text-white text-sm rounded-full shadow-lg hover:shadow-xl shadow-rose-350 dark:shadow-none hover:scale-103 transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                <span>Open Your Surprise</span>
+                <Heart className="w-4 h-4 fill-white" />
+              </motion.button>
+            </div>
+          </motion.div>
+        ) : (
+          
+          /* State 2: Main Surprise Page */
+          <motion.div
+            key="surprise-flow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="w-full flex flex-col items-center"
           >
-            Documentation
-          </a>
-        </div>
-      </main>
+            
+            {/* Top Toolbar (No-Print) */}
+            <div className="w-full max-w-4xl mx-auto flex items-center justify-between px-4 py-4 sticky top-0 z-80 no-print">
+              
+              {/* Back to top Logo / Greeting */}
+              <div className="glass rounded-full px-4 py-1.5 flex items-center gap-2 border border-pink-100/50 shadow-sm">
+                <HeartHandshake className="w-4 h-4 text-rose-500" />
+                <span className="text-[10.5px] font-black text-zinc-700 dark:text-pink-100 uppercase tracking-widest leading-none">
+                  For {nameParam} 👑
+                </span>
+              </div>
+
+              {/* Toolbar Controls */}
+              <div className="flex items-center gap-2">
+                {/* PDF Print Button */}
+                <button
+                  onClick={handlePrintPDF}
+                  className="p-2.5 bg-white/70 hover:bg-white dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-650 dark:text-zinc-300 rounded-full border border-pink-100/50 dark:border-white/5 shadow-sm transition-colors cursor-pointer"
+                  title="Download / Print scrap-book PDF"
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+
+                {/* Dark Mode Toggle */}
+                <button
+                  onClick={handleDarkModeToggle}
+                  className="p-2.5 bg-white/70 hover:bg-white dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-650 dark:text-zinc-300 rounded-full border border-pink-100/50 dark:border-white/5 shadow-sm transition-colors cursor-pointer"
+                  title="Toggle Light/Dark Theme"
+                >
+                  {isDark ? <Sun className="w-4 h-4 text-amber-500 fill-amber-300" /> : <Moon className="w-4 h-4" />}
+                </button>
+
+                {/* Share URL Button */}
+                <button
+                  onClick={handleShare}
+                  className="p-2.5 bg-white/70 hover:bg-white dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-650 dark:text-zinc-300 rounded-full border border-pink-100/50 dark:border-white/5 shadow-sm transition-colors cursor-pointer relative"
+                  title="Copy/Share Surprise Link"
+                >
+                  <Share2 className="w-4 h-4" />
+                  
+                  {/* Copy Alert bubble */}
+                  <AnimatePresence>
+                    {copied && (
+                      <motion.span
+                        initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                        animate={{ opacity: 1, y: -30, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                        className="absolute right-0 top-0 px-2.5 py-1 bg-zinc-900 text-white text-[9.5px] rounded-lg shadow-md font-bold text-center block w-24"
+                      >
+                        Copied Link!
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </div>
+            </div>
+
+            {/* Main Interactive Deck */}
+            <main className="w-full flex-1 flex flex-col items-center">
+              
+              {/* Section 1: Love Letter */}
+              <section id="love-letter" className="w-full print-page-break flex flex-col items-center py-6">
+                <LoveLetter />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 2: Reasons I Love You */}
+              <section id="reasons" className="w-full print-page-break flex flex-col items-center py-6">
+                <ReasonsCards />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 5: Birthday Wishes */}
+              <section id="wishes" className="w-full print-page-break flex flex-col items-center py-6">
+                <BirthdayWishes />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 6: Birthday Cake */}
+              <section id="cake" className="w-full print-page-break flex flex-col items-center py-6 no-print">
+                <BirthdayCake />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 7: Gift Box */}
+              <section id="giftbox" className="w-full print-page-break flex flex-col items-center py-6 no-print">
+                <GiftBox />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 9: Love Quiz */}
+              <section id="quiz" className="w-full print-page-break flex flex-col items-center py-6 no-print">
+                <LoveQuiz />
+              </section>
+
+              <hr className="w-24 border-rose-200/50 my-6 no-print" />
+
+              {/* Section 11 & Final Screen celebration */}
+              <section id="suprisemsg" className="w-full flex flex-col items-center py-6 pb-24">
+                <SurpriseMessage />
+              </section>
+
+            </main>
+
+            {/* Persistent Audio floating HUD */}
+            <div className="no-print">
+              <MusicController />
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Printable Book Footer branding (Only visible during print) */}
+      <div className="hidden print:block text-center text-xs mt-12 border-t pt-4 text-zinc-400">
+        ♥ Handcrafted with love by Shashank for Akriti (Aku) ♥
+      </div>
     </div>
   );
 }
