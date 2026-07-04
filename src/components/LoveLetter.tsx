@@ -12,7 +12,7 @@ export default function LoveLetter() {
 
   const letterText = `My Dearest Aku, 💖
 
-On this beautiful day, I want to tell you how incredibly blessed I am to have you in my life. You aren't just my girlfriend; you're my best friend, my safest shelter, and my ultimate lucky charm. 
+On this beautiful day, I want to tell you how incredibly blessed I am to have you in my life. You're my best friend, my safest shelter, and my ultimate lucky charm. 
 
 No matter where we go—whether we are walking along the crowded, sacred ghats of Banaras, enjoying the serenity of Ganga Aarti, or just sharing routine laughs at home—every single second with you feels like pure magic. Your smile melts away my hardest days, and your laughter is the sweet melody I want to play on loop forever.
 
