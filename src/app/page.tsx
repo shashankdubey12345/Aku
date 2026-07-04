@@ -24,34 +24,13 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [nameParam, setNameParam] = useState('Aku');
 
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [adminData, setAdminData] = useState<{ wish: string; gift: string; couponsCount: number }>({
-    wish: 'No wish made yet 🌟',
-    gift: 'No gift chosen yet 🎁',
-    couponsCount: 0,
-  });
-
-  // Load URL parameter to personalize the name & check admin parameters
+  // Load URL parameter to personalize the name
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const query = new URLSearchParams(window.location.search);
       const name = query.get('name') || query.get('to');
       if (name) {
         setNameParam(name);
-      }
-
-      if (query.get('admin') === 'true' || query.get('check') === 'true') {
-        setIsAdmin(true);
-        // Refresh local storage stats in real-time
-        const interval = setInterval(() => {
-          const w = localStorage.getItem('aku_wish') || 'No wish made yet 🌟';
-          const gRaw = localStorage.getItem('aku_gift');
-          const g = gRaw === 'dinner' ? '🕯 Candlelight Dinner Date' : gRaw === 'shopping' ? '🛍 Surprise Mall Spree' : gRaw === 'album' ? '🎨 Custom Handmade Frame' : 'No gift chosen yet 🎁';
-          const cpRaw = localStorage.getItem('aku_coupons');
-          const cpCount = cpRaw ? JSON.parse(cpRaw).length : 0;
-          setAdminData({ wish: w, gift: g, couponsCount: cpCount });
-        }, 1000);
-        return () => clearInterval(interval);
       }
     }
   }, []);
@@ -251,37 +230,7 @@ export default function Home() {
             {/* Main Interactive Deck */}
             <main className="w-full flex-1 flex flex-col items-center">
               
-              {/* Secret Lover Console (Admin Mode) */}
-              {isAdmin && (
-                <div className="w-full max-w-sm glass p-5 rounded-3xl border border-dashed border-rose-350 dark:border-rose-800/40 my-6 bg-white/70 dark:bg-zinc-900/80 shadow-md text-left z-30 no-print animate-pulse-slow">
-                  <div className="flex items-center gap-2 mb-3 text-rose-500">
-                    <HeartHandshake className="w-4 h-4 text-rose-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">
-                      Shashank's Secrets Console
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-2 font-mono text-[10px] text-zinc-650 dark:text-zinc-350">
-                    <div>
-                      <span className="text-rose-500 font-bold">★ Secret Wish:</span>
-                      <p className="font-sans italic text-zinc-800 dark:text-pink-100 bg-rose-50/20 dark:bg-zinc-800/50 p-2.5 rounded-2xl mt-1 text-xs leading-relaxed">
-                        {adminData.wish}
-                      </p>
-                    </div>
-                    <div className="mt-1">
-                      <span className="text-rose-500 font-bold">★ Selected Gift:</span>
-                      <p className="font-sans text-zinc-800 dark:text-pink-105 bg-rose-50/20 dark:bg-zinc-800/50 p-2.5 rounded-2xl mt-1 text-xs font-semibold leading-relaxed">
-                        {adminData.gift}
-                      </p>
-                    </div>
-                    <div className="mt-1 flex justify-between items-center bg-rose-50/20 dark:bg-zinc-800/30 p-2.5 rounded-2xl">
-                      <span className="text-rose-500 font-bold">★ Claims Redeemed:</span>
-                      <span className="font-sans font-bold text-xs bg-rose-500 text-white px-2.5 py-0.5 rounded-full">
-                        {adminData.couponsCount} / 4
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
+
 
               {/* Section 1: Love Letter */}
               <section id="love-letter" className="w-full print-page-break flex flex-col items-center py-6">
