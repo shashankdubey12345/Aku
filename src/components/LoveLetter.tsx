@@ -14,7 +14,7 @@ export default function LoveLetter() {
 
 On this beautiful day, I want to tell you how incredibly blessed I am to have you in my life. You're my best friend, my safest shelter, and my ultimate lucky charm. 
 
-No matter where we go—whether we are walking along the crowded, sacred ghats of Banaras, enjoying the serenity of Ganga Aarti, or just sharing routine laughs at home—every single second with you feels like pure magic. Your smile melts away my hardest days, and your laughter is the sweet melody I want to play on loop forever.
+No matter where we go, whether we are walking along the crowded, sacred ghats of Banaras, enjoying the serenity of Ganga Aarti, or just sharing routine laughs at home—every single second with you feels like pure magic. Your smile melts away my hardest days, and your laughter is the sweet melody I want to play on loop forever.
 
 I promise to stand by you through every storm and every sunshine, to cheer for you in all your dreams, and to love you more with each passing day. 
 
@@ -50,7 +50,7 @@ Forever Yours,
 
   return (
     <div className="flex flex-col items-center justify-center py-10 px-4 w-full">
-      <motion.h2 
+      <motion.h2
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -61,11 +61,10 @@ Forever Yours,
 
       <div className="relative w-full max-w-[340px] h-[340px] flex items-center justify-center select-none">
         {/* Main Envelope Body container */}
-        <div 
+        <div
           onClick={handleOpen}
-          className={`relative w-[320px] h-[200px] bg-romantic-pink rounded-b-xl shadow-lg cursor-pointer transform transition-transform duration-500 ${
-            isOpen ? 'scale-95 translate-y-16' : 'hover:scale-102 hover:shadow-2xl'
-          }`}
+          className={`relative w-[320px] h-[200px] bg-romantic-pink rounded-b-xl shadow-lg cursor-pointer transform transition-transform duration-500 ${isOpen ? 'scale-95 translate-y-16' : 'hover:scale-102 hover:shadow-2xl'
+            }`}
           style={{ perspective: '800px' }}
         >
           {/* Back & Sides of envelope */}
@@ -81,16 +80,15 @@ Forever Yours,
           <div className="absolute bottom-0 left-0 w-0 h-0 border-b-[100px] border-b-pink-100 border-x-[160px] border-x-transparent rounded-b-xl z-20" />
 
           {/* Top Flap (Rotates on Open) */}
-          <div 
-            className={`absolute top-0 left-0 w-0 h-0 border-t-[100px] border-t-romantic-pink-dark border-x-[160px] border-x-transparent rounded-t-xl transform origin-top transition-transform duration-500 z-30 ${
-              isOpen ? 'rotate-x-180 -translate-y-[1px]' : 'rotate-x-0'
-            }`}
+          <div
+            className={`absolute top-0 left-0 w-0 h-0 border-t-[100px] border-t-romantic-pink-dark border-x-[160px] border-x-transparent rounded-t-xl transform origin-top transition-transform duration-500 z-30 ${isOpen ? 'rotate-x-180 -translate-y-[1px]' : 'rotate-x-0'
+              }`}
           />
 
           {/* Seal Heart (fades away or stays pinned) */}
           <AnimatePresence>
             {!isOpen && (
-              <motion.div 
+              <motion.div
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="absolute top-[80px] left-[140px] w-10 h-10 bg-rose-500 rounded-full flex items-center justify-center shadow-md animate-bounce z-40"

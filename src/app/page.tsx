@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Moon, Sun, Share2, Download, ShieldAlert, Sparkles, HeartHandshake } from 'lucide-react';
+import { Heart, Moon, Sun, Share2, Download, ShieldAlert, Sparkles, HeartHandshake, Lock, KeyRound } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 // Import components
 import FloatingParticles from '@/components/FloatingParticles';
@@ -16,10 +17,14 @@ import LoveQuiz from '@/components/LoveQuiz';
 import MusicController from '@/components/MusicController';
 import SurpriseMessage from '@/components/SurpriseMessage';
 
-import { playBackgroundMusic, triggerHaptic, playChimeSound, playPopSound } from '@/utils/sounds';
+import { playBackgroundMusic, triggerHaptic, playChimeSound, playPopSound, playSuccessSound } from '@/utils/sounds';
 
 export default function Home() {
   const [hasUnlocked, setHasUnlocked] = useState(false);
+  const [passwordPhase, setPasswordPhase] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isSubmitShaking, setIsSubmitShaking] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [copied, setCopied] = useState(false);
   const [nameParam, setNameParam] = useState('Aku');
@@ -53,6 +58,39 @@ export default function Home() {
     triggerHaptic(200);
 
     setHasUnlocked(true);
+  };
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanPwd = passwordInput.trim().toLowerCase();
+
+    // Accept nickname, nameParam, princess or love phrases
+    const allowedWords = [
+      'aku',
+      'akriti',
+      'princess',
+      'love',
+      nameParam.trim().toLowerCase()
+    ];
+
+    if (allowedWords.includes(cleanPwd)) {
+      triggerHaptic(200);
+      playSuccessSound();
+
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff477e', '#ff85a1', '#d6bbfb', '#ffd700']
+      });
+
+      handleUnlockSurprise();
+    } else {
+      triggerHaptic(120);
+      setPasswordError("That's not the magic key, Princess! Try again... 😘");
+      setIsSubmitShaking(true);
+      setTimeout(() => setIsSubmitShaking(false), 500);
+    }
   };
 
   const handleDarkModeToggle = () => {
@@ -105,7 +143,7 @@ export default function Home() {
       <AnimatePresence mode="wait">
         
         {/* State 1: Opening Screen (Locked) */}
-        {!hasUnlocked ? (
+        {!hasUnlocked && !passwordPhase && (
           <motion.div
             key="opening-screen"
             initial={{ opacity: 1 }}
@@ -152,7 +190,7 @@ export default function Home() {
                 transition={{ delay: 2.5 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleUnlockSurprise}
+                onClick={() => { playPopSound(); triggerHaptic(85); setPasswordPhase(true); }}
                 className="mt-6 py-3.5 px-8 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-650 font-extrabold text-white text-sm rounded-full shadow-lg hover:shadow-xl shadow-rose-350 dark:shadow-none hover:scale-103 transition-all cursor-pointer flex items-center gap-1.5"
               >
                 <span>Open Your Surprise</span>
@@ -160,9 +198,87 @@ export default function Home() {
               </motion.button>
             </div>
           </motion.div>
-        ) : (
-          
-          /* State 2: Main Surprise Page */
+        )}
+
+        {/* State 2: Password Challenge Screen */}
+        {!hasUnlocked && passwordPhase && (
+          <motion.div
+            key="password-screen"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, y: -45 }}
+            transition={{ duration: 0.6 }}
+            className="fixed inset-0 z-100 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-rose-50 via-pink-100 to-purple-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-neutral-900"
+          >
+            {/* Spinning heart background glow */}
+            <div className="absolute w-[280px] h-[280px] rounded-full bg-rose-250/20 dark:bg-rose-900/10 blur-3xl -z-10 animate-pulse" />
+
+            <motion.div
+              animate={isSubmitShaking ? { x: [-10, 10, -10, 10, -5, 5, 0] } : {}}
+              transition={{ duration: 0.5 }}
+              className="w-full max-w-sm glass p-8 rounded-3xl border border-pink-200/50 dark:border-white/5 shadow-xl flex flex-col items-center text-center bg-white/80 dark:bg-zinc-900/80 relative"
+            >
+              {/* Lock Shield Icon */}
+              <div className="w-16 h-16 rounded-full bg-rose-100 dark:bg-rose-955 text-rose-500 flex items-center justify-center mb-6 shadow-inner relative">
+                <Lock className="w-6 h-6" />
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute inset-0 rounded-full border-2 border-rose-300/40"
+                />
+              </div>
+
+              <h2 className="text-lg font-black text-rose-600 dark:text-pink-100 uppercase tracking-widest leading-none">
+                Unlock Surprise
+              </h2>
+              <p className="text-zinc-550 dark:text-zinc-400 text-xs mt-2 mb-6 leading-relaxed px-2">
+                This is a private surprise for my Princess. <br/>Enter the magic password to open my heart...
+              </p>
+
+              <form onSubmit={handlePasswordSubmit} className="w-full flex flex-col gap-4">
+                <div className="relative w-full z-10">
+                  <input
+                    autoFocus
+                    required
+                    type="password"
+                    value={passwordInput}
+                    onChange={(e) => {
+                      setPasswordInput(e.target.value);
+                      if (passwordError) setPasswordError('');
+                    }}
+                    placeholder="Enter Password..."
+                    className="w-full py-3 px-4 rounded-2xl bg-white/70 dark:bg-zinc-850/80 border border-pink-100 dark:border-zinc-700 text-zinc-800 dark:text-white text-xs font-semibold text-center outline-none focus:border-rose-455 transition-all shadow-inner tracking-wider"
+                  />
+                </div>
+
+                {passwordError && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-[10.5px] text-rose-500 dark:text-rose-400 font-bold italic leading-relaxed"
+                  >
+                    {passwordError}
+                  </motion.p>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full py-3 px-6 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-650 font-extrabold text-white text-xs rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 hover:scale-102"
+                >
+                  <KeyRound className="w-3.5 h-3.5 fill-white/10" />
+                  <span>Unlock Surprise 🔑</span>
+                </button>
+              </form>
+
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-4 italic font-medium leading-relaxed px-1">
+                Hint: Your short nickname (3 letters, lowercase) or your first name! 😉
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* State 3: Main Surprise Page */}
+        {hasUnlocked && (
           <motion.div
             key="surprise-flow"
             initial={{ opacity: 0 }}

@@ -108,7 +108,7 @@ export default function MemoryTimeline() {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              
+
               {/* Floating badges on photo */}
               <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
                 <span className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold bg-white/95 dark:bg-zinc-900/95 text-rose-600 rounded-full shadow-md">
@@ -120,7 +120,7 @@ export default function MemoryTimeline() {
                   {memory.location}
                 </span>
               </div>
-              
+
               <div className="absolute bottom-3 left-4 z-10">
                 <h3 className="font-extrabold text-white text-lg tracking-wide text-glow">
                   {memory.title}
@@ -133,7 +133,7 @@ export default function MemoryTimeline() {
               <p className="text-zinc-650 dark:text-zinc-350 text-xs md:text-sm font-sans italic leading-relaxed">
                 "{memory.caption}"
               </p>
-              
+
               <div className="flex items-center justify-between mt-4 pt-3 border-t border-rose-100/40 dark:border-white/5">
                 <span className="text-[10px] uppercase tracking-wider font-extrabold text-pink-500">
                   Milestone #{index + 1}

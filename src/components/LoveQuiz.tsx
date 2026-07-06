@@ -42,10 +42,10 @@ export default function LoveQuiz() {
     {
       id: 3,
       qText: "Which food/drink combo is our absolute favourite to share?",
-      options: ["Mexican Tacos + Soda", "Spicy Ramen + Green Tea", "Street Momos + Cold Coffee ☕", "Burgers + Milkshake"],
-      correctAnswer: "Street Momos + Cold Coffee ☕",
+      options: ["Mexican Tacos + Soda", "Spicy Ramen + Green Tea", "Momos + Cold Coffee ☕", "Burgers + Milkshake"],
+      correctAnswer: "Momos + Cold Coffee ☕",
       hint: "Our typical go-to date snack that always makes us super happy!",
-      successMessage: "Aha! Street momos and cold coffee are indeed our soul fuel!"
+      successMessage: "Aha! Momos and cold coffee are indeed our soul fuel!"
     },
     {
       id: 4,
@@ -59,7 +59,7 @@ export default function LoveQuiz() {
 
   const handleOptionClick = (opt: string) => {
     if (quizState === 'success') return;
-    
+
     setSelectedOpt(opt);
     const correct = opt === questions[currentIdx].correctAnswer;
 
@@ -93,14 +93,14 @@ export default function LoveQuiz() {
           requestAnimationFrame(frame);
         }
       };
-      
+
       frame();
 
     } else {
       playPopSound();
       triggerHaptic(80);
       setQuizState('incorrect');
-      
+
       // Shake animation trigger
       setShakeCard(true);
       setTimeout(() => setShakeCard(false), 500);
@@ -175,9 +175,9 @@ export default function LoveQuiz() {
                 {currentQ.options.map((opt) => {
                   const isCorrectAnswer = opt === currentQ.correctAnswer;
                   const isSelected = opt === selectedOpt;
-                  
+
                   let btnStyle = "bg-white/70 dark:bg-zinc-800/40 hover:bg-rose-50/50 border-pink-100/40 dark:border-white/5 text-zinc-800 dark:text-pink-100";
-                  
+
                   if (quizState === 'success' && isCorrectAnswer) {
                     btnStyle = "bg-emerald-100 dark:bg-emerald-950/40 border-emerald-300 text-emerald-700 dark:text-emerald-300 font-extrabold shadow-sm";
                   } else if (isSelected && quizState === 'incorrect') {
@@ -192,7 +192,7 @@ export default function LoveQuiz() {
                       className={`w-full text-left py-3 px-4 rounded-2xl border text-xs font-semibold tracking-wide transition-all shadow-xs flex items-center justify-between cursor-pointer ${btnStyle}`}
                     >
                       <span>{opt}</span>
-                      
+
                       {quizState === 'success' && isCorrectAnswer && (
                         <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                       )}
