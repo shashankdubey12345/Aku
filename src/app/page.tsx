@@ -62,18 +62,9 @@ export default function Home() {
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanPwd = passwordInput.trim().toLowerCase();
+    const cleanPwd = passwordInput.trim();
 
-    // Accept nickname, nameParam, princess or love phrases
-    const allowedWords = [
-      'aku',
-      'akriti',
-      'princess',
-      'love',
-      nameParam.trim().toLowerCase()
-    ];
-
-    if (allowedWords.includes(cleanPwd)) {
+    if (cleanPwd === '0903') {
       triggerHaptic(200);
       playSuccessSound();
 
@@ -87,7 +78,7 @@ export default function Home() {
       handleUnlockSurprise();
     } else {
       triggerHaptic(120);
-      setPasswordError("That's not the magic key, Princess! Try again... 😘");
+      setPasswordError("That's not the magic passcode, Princess! Try again... 😘");
       setIsSubmitShaking(true);
       setTimeout(() => setIsSubmitShaking(false), 500);
     }
@@ -271,7 +262,7 @@ export default function Home() {
               </form>
 
               <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-4 italic font-medium leading-relaxed px-1">
-                Hint: Your short nickname (3 letters, lowercase) or your first name! 😉
+                Hint: A special 4-digit date passcode (DDMM)! 📅
               </p>
             </motion.div>
           </motion.div>
