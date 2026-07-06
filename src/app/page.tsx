@@ -232,12 +232,16 @@ export default function Home() {
                     autoFocus
                     required
                     type="password"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={4}
                     value={passwordInput}
                     onChange={(e) => {
-                      setPasswordInput(e.target.value);
+                      const val = e.target.value.replace(/[^0-9]/g, '');
+                      setPasswordInput(val);
                       if (passwordError) setPasswordError('');
                     }}
-                    placeholder="Enter Password..."
+                    placeholder="Enter Passcode..."
                     className="w-full py-3 px-4 rounded-2xl bg-white/70 dark:bg-zinc-850/80 border border-pink-100 dark:border-zinc-700 text-zinc-800 dark:text-white text-xs font-semibold text-center outline-none focus:border-rose-455 transition-all shadow-inner tracking-wider"
                   />
                 </div>
