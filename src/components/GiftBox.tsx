@@ -152,7 +152,7 @@ export default function GiftBox() {
               {/* Couple Photo */}
               <div className="w-full h-44 rounded-2xl overflow-hidden shadow-md border border-pink-100 flex-shrink-0 relative group">
                 <img
-                  src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=650&q=80"
+                  src="/us.jpg"
                   alt="Us"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -166,9 +166,6 @@ export default function GiftBox() {
                   <p className="text-[11px] md:text-xs text-zinc-650 dark:text-zinc-350 italic font-serif leading-relaxed">
                     "In case you ever foolishly forget: I am never not thinking of you."
                   </p>
-                  <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold block mt-1">
-                    — Virginia Woolf
-                  </span>
                 </div>
 
                 {/* Handwritten notes */}

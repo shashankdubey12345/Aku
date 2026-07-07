@@ -16,7 +16,7 @@ On this beautiful day, I want to tell you how incredibly blessed I am to have yo
 
 No matter where we go, whether we are walking along the crowded, sacred ghats of Banaras, enjoying the serenity of Ganga Aarti, or just sharing routine laughs at home—every single second with you feels like pure magic. Your smile melts away my hardest days, and your laughter is the sweet melody I want to play on loop forever.
 
-I promise to stand by you through every storm and every sunshine, to cheer for you in all your dreams, and to love you more with each passing day. 
+I promise to stand by you through every storm and every sunshine, to cheer for you in all your dreams, and to love you more with each passing day (haath mat chhodna, saath mat chhodna). 
 
 Happy Birthday, my Princess. Today is all about celebrating the wonderful soul that you are.
 

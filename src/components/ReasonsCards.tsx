@@ -137,13 +137,6 @@ export default function ReasonsCards() {
       title: "Unwavering Trust",
       desc: "The solid foundation of trust we share, ensuring we can resolve anything together.",
       color: "from-pink-100 to-purple-100 dark:from-pink-950/30 dark:to-purple-950/30"
-    },
-    {
-      id: 18,
-      icon: <Heart className="w-6 h-6 text-red-600" />,
-      title: "Unconditional Love",
-      desc: "Accepting me with all my flaws, loving me for exactly who I am. You are my princess.",
-      color: "from-rose-100 to-amber-100 dark:from-rose-950/30 dark:to-amber-950/30"
     }
   ];
 

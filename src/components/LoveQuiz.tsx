@@ -252,8 +252,8 @@ export default function LoveQuiz() {
               </div>
 
               <div>
-                <h3 className="text-xl font-extrabold text-zinc-800 dark:text-pink-100 text-glow">
-                  You Aced It, Princess! 👑
+                <h3 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-950">
+                  you aced it, princess 👑
                 </h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 px-2 max-w-[280px]">
                   You got all answers correct! Every memory in Banaras and every shared MOMO date is safely stored in our hearts.

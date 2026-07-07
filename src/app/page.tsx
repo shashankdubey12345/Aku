@@ -264,10 +264,6 @@ export default function Home() {
                   <span>Unlock Surprise 🔑</span>
                 </button>
               </form>
-
-              <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-4 italic font-medium leading-relaxed px-1">
-                Hint: A special 4-digit date passcode (DDMM)! 📅
-              </p>
             </motion.div>
           </motion.div>
         )}
@@ -286,10 +282,10 @@ export default function Home() {
             <div className="w-full max-w-4xl mx-auto flex items-center justify-between px-4 py-4 sticky top-0 z-80 no-print">
               
               {/* Back to top Logo / Greeting */}
-              <div className="glass rounded-full px-4 py-1.5 flex items-center gap-2 border border-pink-100/50 shadow-sm">
-                <HeartHandshake className="w-4 h-4 text-rose-500" />
-                <span className="text-[10.5px] font-black text-zinc-700 dark:text-pink-100 uppercase tracking-widest leading-none">
-                  For {nameParam} 👑
+              <div className="bg-white/95 dark:bg-white/95 rounded-full px-4 py-1.5 flex items-center gap-2 border border-rose-200/60 shadow-sm">
+                <HeartHandshake className="w-4 h-4 text-rose-600" />
+                <span className="text-[11px] font-black text-zinc-900 dark:text-zinc-900 uppercase tracking-widest leading-none">
+                  For Aku 👑
                 </span>
               </div>
 

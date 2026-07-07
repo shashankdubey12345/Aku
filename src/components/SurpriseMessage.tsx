@@ -38,7 +38,7 @@ export default function SurpriseMessage() {
 I'll always celebrate you,
 support you,
 protect you,
-and love you more every single day.
+and love you more every single day (haath mat chhodna, saath mat chhodna).
 
 Happy Birthday My Princess.
 ❤️`;
