@@ -16,6 +16,7 @@ import GiftBox from '@/components/GiftBox';
 import LoveQuiz from '@/components/LoveQuiz';
 import MusicController from '@/components/MusicController';
 import SurpriseMessage from '@/components/SurpriseMessage';
+import TemporaryUnavailable from '@/components/TemporaryUnavailable';
 
 import { playBackgroundMusic, triggerHaptic, playChimeSound, playPopSound, playSuccessSound } from '@/utils/sounds';
 
@@ -123,6 +124,20 @@ export default function Home() {
     triggerHaptic(100);
     window.print();
   };
+
+  // Set to true to show the "Temporarily Unavailable" (maintenance) page, 
+  // or set NEXT_PUBLIC_MAINTENANCE_MODE=true in your environment variables.
+  const IS_MAINTENANCE_MODE = true;
+  const isMaintenanceMode = IS_MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+
+  if (isMaintenanceMode) {
+    return (
+      <TemporaryUnavailable
+        isDark={isDark}
+        onDarkModeToggle={handleDarkModeToggle}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-screen w-full transition-colors duration-500 selection:bg-rose-200">
