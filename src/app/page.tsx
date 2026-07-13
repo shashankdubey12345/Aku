@@ -127,7 +127,7 @@ export default function Home() {
 
   // Set to true to show the "Temporarily Unavailable" (maintenance) page, 
   // or set NEXT_PUBLIC_MAINTENANCE_MODE=true in your environment variables.
-  const IS_MAINTENANCE_MODE = true;
+  const IS_MAINTENANCE_MODE = false;
   const isMaintenanceMode = IS_MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
 
   if (isMaintenanceMode) {
